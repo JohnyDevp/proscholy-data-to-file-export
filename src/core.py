@@ -1,40 +1,21 @@
-#for making a graphql request and further result get
-from gql import gql, Client
-from gql.transport.aiohttp import AIOHTTPTransport
-
-
 #for converting json into pdf
-import jpype
-jpype.startJVM() 
-import pdfkit
-
-#regex
-import re
-
+from presentation import Presentation
 #my module for color for string
 from props import bcolors
 
-#constants
-PROSCHOLY_PATH = "https://zpevnik.proscholy.cz/graphql"
-
-HTML_HEAD = """
-    <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-        </head>
-        <body> """ 
-
-HTML_FOOT = """
-    </body>
-    </html>
-"""
-
-def jsonProcessing():
-    ()
-
-def slidesToPPT():
-    ()
-
-def pageToPDF():
-    ()
+def exportJsonToFile(json_content):
+    # get the content type of passed json
+    if json_content['file']['raw-pdf'] == "True":
+        # exporting just raw pdf (means the text will be at one page)
+        ()
+    else:
+        # exporting slides (ppt or pdf)
+        presentation = Presentation(json_content)
+        
+        match json_content['file']['export-format']:
+            case "ppt":
+                return presentation.exportPPT()
+            case "pdf":
+                return presentation.exportPDF()
+            case _:
+                pass # when there is an unrecognized file format

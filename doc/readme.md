@@ -8,12 +8,20 @@ Under Creative Commons Licence
  
 Files
 ---
-- readme.md - short documentation
+- doc/readme.md - short documentation
+- doc/readme.pdf - short documentation for download
+- src/requirements.txt - all dependencies
+- src/core.py - module handling the whole process of exporting
+- src/presentation.py - module for object Presentation, which handling process of creating presentation
+- src/rawpdf.py - module for object RawPdf, which handling process of creating pdf text file
+- src/props.py - module consisting of helper objects
 - server.py - flask server handling requests
+
 
 Run
 ---
-In bash on Linux:
+In bash on Linux: </br>
+<i>Maybe would be necessary add the path of src folder to the PYTHONPATH (some imports are from that folder)</i>
 <pre>
 $ export FLASK_APP=server
 $ flask run
@@ -28,6 +36,12 @@ below.
 
 Description of usage
 ---
+With exactly composed JSON file send on this server address you can get either presentation or raw pdf file.
+The json has three must-have keys - file, display-options, slides
+- <b>file</b>
+- - something
+- <b>display-options</b>
+- <b>slides</b>
 
 Example
 ---
@@ -36,7 +50,9 @@ Example
 
 Operating system differences
 ---
-Both platforms requires all neccessary packages to be installed, so make yourself sure that this is done. (if you start the app, it will show you what package is currently missing - you will probably have to do this start-install process more times) <br>
+- Package <b>python-pptx</b> requires one adjustment - in "pptx/compat/__init__.py" is necessary to add <pre>import collections.abc</pre> otherwise
+  it will through errors typical for python 3.10. <br>
+- Both platforms requires all neccessary packages to be installed, so make yourself sure that this is done. All requirements are included in requirements.txt situated in src folder<br>
 If you are on:
 - Windows - find every comment <b>WINDOWS</b>, uncomment the next lines, which are marked and comment each block of code marked with word <b>LINUX</b>. Make sure that every line you uncomment make sense considering your personal PC setup (especially paths).
 - Linux - change words <b>WINDOWS</b> and <b>LINUX</b> and do the steps written above

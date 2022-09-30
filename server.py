@@ -5,6 +5,7 @@ from flask import request
 
 import json, requests
 
+from src import core, props
 from props import bcolors
 
 app = Flask(__name__)
@@ -14,15 +15,17 @@ app = Flask(__name__)
 #                           and text of the song - both in one json file
 @app.route('/data_to_file_export', methods=['GET', 'POST'])
 def data_to_file_export():
-    print("Yes I have been raised")
-    content = request.json
-    return send_file("testpresent.odp", as_attachment=True)
+    json_content = json.loads(request.get_json()) # TODO content redy to read
 
-@app.route('/')
+    fileName = core.exportJsonToFile(json_content)
+    
+    return send_file(fileName, as_attachment=True)
+
+@app.route('/') #TODO make it nice
 def home():
-    return send_file("testpresent.odp", as_attachment=True)
+    return "Welcome to the home site"
 
-@app.route('/doc')
+@app.route('/doc') #TODO write doc
 def doc():
     try:
         return send_file('/doc/readme.pdf', as_attachment=True)
